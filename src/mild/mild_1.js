@@ -11,7 +11,6 @@
 export function sumToString(a, b) {
     return a + " + " + b + " = " + (a + b);
 }
-console.log(sumToString(1, 10));
 
 /**
  *
