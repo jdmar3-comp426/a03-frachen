@@ -32,9 +32,9 @@ export function getMedian(array) {
     array = array.sort();
 
     if (array.length % 2 == 0) {
-        return ((array[middle - 1] + array[middle]) / 2);
+        return Number((array[middle - 1] + array[middle]) / 2);
     } else {
-        return array[middle];
+        return Number(array[middle]);
     }
 }
 
