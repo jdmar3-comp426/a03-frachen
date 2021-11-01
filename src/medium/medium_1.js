@@ -27,7 +27,16 @@ export function getSum(array) {
  * let array = [3,2,5,6,2,7,4,2,7,5];
  * console.log(getMedian(array)); // 4.5
  */
-export function getMedian(array) {}
+export function getMedian(array) {
+    let middle = Math.floor(array.length / 2);
+    array = array.sort();
+
+    if (array.length % 2 == 0) {
+        return (array[middle - 1] + array[middle] / 2);
+    } else {
+        return array[middle];
+    }
+}
 
 /**
  * Calculates statistics (see below) on an array of numbers.
@@ -49,5 +58,14 @@ export function getMedian(array) {}
  }
  */
 export function getStatistics(array) {
-
+    return {
+        length: array.length,
+        sum: getSum(array),
+        mean: getSum(array) / array.length,
+        median: getMedian(array),
+        min: Math.min(...array),
+        max: Math.max(...array),
+        variance: variance(array),
+        standard_deviation: Math.sqrt(variance(array))
+    }
 }
