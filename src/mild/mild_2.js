@@ -75,7 +75,7 @@ export function removeKey(object, key) {
  */
 export function removeKeyNonDestructive(object, key) {
    let obj = Object.assign({}, object);
-   removeKey(obj(key));
+   removeKey(obj, key);
    return obj;
 }
 
