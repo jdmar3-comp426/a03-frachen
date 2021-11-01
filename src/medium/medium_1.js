@@ -32,7 +32,7 @@ export function getMedian(array) {
     array = array.sort();
 
     if (array.length % 2 == 0) {
-        return (array[middle - 1] + array[middle] / 2);
+        return ((array[middle - 1] + array[middle]) / 2);
     } else {
         return array[middle];
     }
@@ -65,7 +65,7 @@ export function getStatistics(array) {
         median: getMedian(array),
         min: Math.min(...array),
         max: Math.max(...array),
-        variance: variance(array),
-        standard_deviation: Math.sqrt(variance(array))
+        variance: variance(array, getSum(array) / array.length),
+        standard_deviation: Math.sqrt(variance(array, getSum(array) / array.length))
     }
 }
