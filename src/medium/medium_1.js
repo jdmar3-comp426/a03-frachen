@@ -28,8 +28,8 @@ export function getSum(array) {
  * console.log(getMedian(array)); // 4.5
  */
 export function getMedian(array) {
-    let middle = Math.floor(array.length / 2);
-    array = array.sort();
+    let middle = Math.floor((array.length) / 2);
+    array = array.sort((a, b) => a - b);
 
     if (array.length % 2 == 0) {
         return Number((array[middle - 1] + array[middle]) / 2);
