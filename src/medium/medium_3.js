@@ -62,4 +62,16 @@ export function searchName(car_data, searchTerm) {
  * @param {number[]} years - array of years to be included in the results e.g. [2010, 2012]
  * @returns {[]} an array of car objects
  */
-export function searchByYear(car_data, years) {}
+export function searchByYear(car_data, years) {
+    let arr = [{}];
+    for (let i = 0; i < car_data.length; i++) {
+        for (let j = 0; j < years.length; j++) {
+            if (car_data[i].year == years[j]) {
+                arr.push(car_data[i]);
+            }
+        }
+    }
+    return arr.sort(function (a, b) {
+        return a.year - b.year;
+    });
+}
