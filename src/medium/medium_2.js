@@ -22,8 +22,12 @@ see under the methods section
  * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
  */
 export const allCarStats = {
-    avgMpg: mpg_data.reduce((sum, next) =>
-        sum + next.city_mpg + next.highway_mpg, 0) / mpg_data.length,
+    avgMpg: {
+        city: mpg_data.reduce((sum, next) =>
+            sum + next.city_mpg, 0) / mpg_data.length,
+        highway: mpg_data.reduce((sum, next) =>
+            sum + next.highway_mpg, 0) / mpg_data.length
+    },
     allYearStats: getStatistics(mpg_data.map(element => element.year)),
     ratioHybrids: mpg_data.filter(element => element.hybrid == true).length / mpg_data.length,
 };
