@@ -29,7 +29,7 @@ export const allCarStats = {
             sum + next.highway_mpg, 0) / mpg_data.length
     },
     allYearStats: getStatistics(mpg_data.map(element => element.year)),
-    ratioHybrids: mpg_data.filter(element => element.hybrid == true).length / mpg_data.length,
+    ratioHybrids: mpg_data.filter(element => element.hybrid).length / mpg_data.length,
 };
 
 
@@ -91,6 +91,42 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-    makerHybrids: undefined,
+    makerHybrids: calculateMakerHyrbrids(mpg_data),
     avgMpgByYearAndHybrid: undefined
 };
+
+function calculateMakerHyrbrids(array) {
+    array = array.filter(element => element.hybrid === true).sort(function (a, b) {
+        var nameA = a.make.toUpperCase();
+        var nameB = b.make.toUpperCase();
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+
+        return 0;
+    });
+
+    let arr = [];
+    let j = -1;
+    for (let i = 0; i < array.length; i++) {
+        if (!arr.some(element => element.make === array[i].make)) {
+            arr.push({
+                make: array[i].make,
+                hybrids: []
+            })
+            j++;
+            arr[j].hybrids.push(array[i].id);
+        } else {
+            arr[j].hybrids.push(array[i].id);
+        }
+    }
+
+    arr.sort(function (a, b) {
+        return a.hybrids.length - b.hybrids.length;
+    });
+
+    return arr;
+}
