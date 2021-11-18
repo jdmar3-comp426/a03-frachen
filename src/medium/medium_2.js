@@ -92,10 +92,10 @@ export const allCarStats = {
  */
 export const moreStats = {
     makerHybrids: calculateMakerHyrbrids(mpg_data),
-    avgMpgByYearAndHybrid: undefined
+    avgMpgByYearAndHybrid: calculateAvgMpgByYearAndHybrid(array)
 };
 
-function calculateMakerHyrbrids(array) {
+export function calculateMakerHyrbrids(array) {
     array = array.filter(element => element.hybrid === true).sort(function (a, b) {
         var nameA = a.make.toUpperCase();
         var nameB = b.make.toUpperCase();
@@ -129,4 +129,22 @@ function calculateMakerHyrbrids(array) {
     });
 
     return arr;
+}
+
+function calculateAvgMpgByYearAndHybrid(array) {
+    array = array.sort(function (a, b) {
+        return a.year - b.year;
+    });
+
+    let obj = new Object();
+    let years = [];
+    let j = -1;
+    for (let i = 0; i < array.length; i++) {
+
+        if (!years.includes(array[i].year)) {
+            years.push(array[i].year);
+            obj[array[i].year] = new Object();
+        }
+    }
+    return obj;
 }
