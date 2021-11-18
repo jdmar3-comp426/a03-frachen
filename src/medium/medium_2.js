@@ -92,7 +92,7 @@ export const allCarStats = {
  */
 export const moreStats = {
     makerHybrids: calculateMakerHyrbrids(mpg_data),
-    avgMpgByYearAndHybrid: calculateAvgMpgByYearAndHybrid(array)
+    avgMpgByYearAndHybrid: calculateAvgMpgByYearAndHybrid(mpg_data)
 };
 
 export function calculateMakerHyrbrids(array) {
