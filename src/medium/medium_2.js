@@ -140,11 +140,28 @@ function calculateAvgMpgByYearAndHybrid(array) {
     let years = [];
     let j = -1;
     for (let i = 0; i < array.length; i++) {
-
         if (!years.includes(array[i].year)) {
             years.push(array[i].year);
-            obj[array[i].year] = new Object();
         }
+    }
+
+    for (let i = 0; i < years.length; i++) {
+        let hybridArr = array.filter(element => element.hybrid && element.year === years[i]);
+        let notHybridArr = array.filter(element => !element.hybrid && element.year === years[i]);
+        obj[years[i]] = new Object({
+            hybrid: {
+                city: hybridArr.reduce((sum, next) =>
+                    sum + next.city_mpg, 0) / hybridArr.length,
+                highway: hybridArr.reduce((sum, next) =>
+                    sum + next.highway_mpg, 0) / hybridArr.length
+            },
+            notHybrid: {
+                city: notHybridArr.reduce((sum, next) =>
+                    sum + next.city_mpg, 0) / hybridArr.length,
+                highway: notHybridArr.reduce((sum, next) =>
+                    sum + next.highway_mpg, 0) / notHybridArr.length
+            }
+        });
     }
     return obj;
 }
