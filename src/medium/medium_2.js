@@ -157,7 +157,7 @@ function calculateAvgMpgByYearAndHybrid(array) {
             },
             notHybrid: {
                 city: notHybridArr.reduce((sum, next) =>
-                    sum + next.city_mpg, 0) / nothybridArr.length,
+                    sum + next.city_mpg, 0) / notHybridArr.length,
                 highway: notHybridArr.reduce((sum, next) =>
                     sum + next.highway_mpg, 0) / notHybridArr.length
             }
