@@ -1,5 +1,7 @@
 import mpg_data from "./data/mpg_data.js";
-import {getStatistics} from "./medium_1.js";
+import {
+    getStatistics
+} from "./medium_1.js";
 
 /*
 This section can be done by using the array prototype functions.
@@ -20,9 +22,14 @@ see under the methods section
  * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
  */
 export const allCarStats = {
-    avgMpg: undefined,
-    allYearStats: undefined,
-    ratioHybrids: undefined,
+    avgMpg: {
+        city: mpg_data.reduce((sum, next) =>
+            sum + next.city_mpg, 0) / mpg_data.length,
+        highway: mpg_data.reduce((sum, next) =>
+            sum + next.highway_mpg, 0) / mpg_data.length
+    },
+    allYearStats: getStatistics(mpg_data.map(element => element.year)),
+    ratioHybrids: mpg_data.filter(element => element.hybrid).length / mpg_data.length,
 };
 
 
@@ -84,6 +91,77 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-    makerHybrids: undefined,
-    avgMpgByYearAndHybrid: undefined
+    makerHybrids: calculateMakerHyrbrids(mpg_data),
+    avgMpgByYearAndHybrid: calculateAvgMpgByYearAndHybrid(mpg_data)
 };
+
+export function calculateMakerHyrbrids(array) {
+    array = array.filter(element => element.hybrid === true).sort(function (a, b) {
+        var nameA = a.make.toUpperCase();
+        var nameB = b.make.toUpperCase();
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+
+        return 0;
+    });
+
+    let arr = [];
+    let j = -1;
+    for (let i = 0; i < array.length; i++) {
+        if (!arr.some(element => element.make === array[i].make)) {
+            arr.push({
+                make: array[i].make,
+                hybrids: []
+            })
+            j++;
+            arr[j].hybrids.push(array[i].id);
+        } else {
+            arr[j].hybrids.push(array[i].id);
+        }
+    }
+
+    arr.sort(function (a, b) {
+        return a.hybrids.length - b.hybrids.length;
+    });
+
+    return arr;
+}
+
+function calculateAvgMpgByYearAndHybrid(array) {
+    array = array.sort(function (a, b) {
+        return a.year - b.year;
+    });
+
+    let obj = new Object();
+    let years = [];
+    let j = -1;
+    for (let i = 0; i < array.length; i++) {
+        if (!years.includes(array[i].year)) {
+            years.push(array[i].year);
+        }
+    }
+
+    for (let i = 0; i < years.length; i++) {
+        let hybridArr = array.filter(element => element.hybrid && element.year === years[i]);
+        let notHybridArr = array.filter(element => !element.hybrid && element.year === years[i]);
+        obj[years[i]] = new Object({
+            hybrid: {
+                city: hybridArr.reduce((sum, next) =>
+                    sum + next.city_mpg, 0) / hybridArr.length,
+                highway: hybridArr.reduce((sum, next) =>
+                    sum + next.highway_mpg, 0) / hybridArr.length
+            },
+            notHybrid: {
+                city: notHybridArr.reduce((sum, next) =>
+                    sum + next.city_mpg, 0) / notHybridArr.length,
+                highway: notHybridArr.reduce((sum, next) =>
+                    sum + next.highway_mpg, 0) / notHybridArr.length
+            }
+        });
+    }
+    return obj;
+}
